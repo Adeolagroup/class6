@@ -34,3 +34,14 @@
       service:
         name: firewalld
         state: restarted
+
+
+- name: second Play
+  become: yes
+  hosts: rocky8
+
+  tasks:
+    - name: install telnet
+      yum:
+        state: present
+        name: telnet
