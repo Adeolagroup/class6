@@ -33,7 +33,7 @@
         name: issa
         shell: /bin/bash
         groups: finance, sales
-        home: /tmp/issa
+        home: /home/issa
 
     - name : create directory and set group ownership and permission
       file:
@@ -42,7 +42,6 @@
         owner: issa
         group: finance
         mode: a+rwx
-        create: yes
 
     - name : create directory and set group ownership and permission
       file:
@@ -51,7 +50,6 @@
         owner: papa
         group: sales
         mode: u+rw,g+rwx,o+r
-        create: yes
 
     - name : create directory and set group ownership and permission
       file:
@@ -60,4 +58,3 @@
         owner: emma
         group: sales
         mode: u+rwx,g+rwx,o+rxs
-        create: yes
