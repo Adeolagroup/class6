@@ -1,9 +1,10 @@
 ---
 - name: Playbook to install telnet
   hosts: all
+  become: true
 
   tasks:
     - name: install telnet
-      dnf:
+      package:
         name: telnet
-        state: present
+        state: removed

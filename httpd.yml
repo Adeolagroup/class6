@@ -34,11 +34,12 @@
       service:
         name: firewalld
         state: restarted
+      ignore_errors: true
 
 
 - name: second Play
   become: yes
-  hosts: rocky8
+  hosts: rocky
 
   tasks:
     - name: install telnet
