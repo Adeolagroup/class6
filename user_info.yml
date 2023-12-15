@@ -1,0 +1,15 @@
+---
+group_info:
+- groupname: "sales"
+- groupname: "class6"
+- groupname: "finance"
+
+user_info:
+- username: "papa"
+  uid: 1099
+
+- username: "emma"
+  uid: 1088
+
+- username: "issa"
+  uid: 1087

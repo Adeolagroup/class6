@@ -1,0 +1,25 @@
+---
+####Playbook to create user and assigne password ############################################################
+- name: Playbook to manage class6 learning
+  hosts: rocky
+  become: yes
+  vars_files:
+    - userinfo.yml
+
+  tasks:
+    - name: create all group users
+      group:
+        name: "{{ item.groupname }}"
+        state: present
+      with_items:
+        - "{{ group_info }}"
+
+    - name: create users in staff variable in web role and make them members of groups staff and students
+      user:
+        name: "{{ item.username }}"
+        groups: web
+        state: present
+        password: "$6$W6kEROvY$G64d4zHAf6Xpdm4T0PtKmaFuT6213TKXOh6/RcNLp6ZEm2A2HgEmiGc//tuSqK4nFybTiAY3PWIUVBq2.9EVp1"
+        update_password: always
+      with_items:
+        - "{{ user_info }}"
