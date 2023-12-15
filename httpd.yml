@@ -1,0 +1,48 @@
+---
+- name: Playbook to configure apache
+  hosts: alma
+  become: yes
+
+  tasks:
+    - name: install apache http
+      dnf:
+        name: httpd
+        state: present
+
+    - name: start and enable apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: update index file
+      lineinfile:
+        line: "Website setup with ansible"
+        path: /var/www/html/index.html
+        create: yes
+
+    - name: enable https and http on firewalld
+      firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+      loop:
+        - http
+        - https
+
+    - name: reload the firewalld service
+      service:
+        name: firewalld
+        state: restarted
+      ignore_errors: true
+
+
+- name: second Play
+  become: yes
+  hosts: rocky
+
+  tasks:
+    - name: install telnet
+      yum:
+        state: present
+        name: telnet

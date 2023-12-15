@@ -16,6 +16,6 @@
         create: yes
 
     - name: Enable SELinux
-       SELinux:
-         policy: targeted
-         state: enforcing
+      SELinux:
+        policy: targeted
+        state: enforcing
