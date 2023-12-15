@@ -4,6 +4,16 @@
   become: yes
 
   tasks:
+    - name: create all group for users
+      group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - class6
+        - finance
+        - sales
+        - africa
+
     - name: create user papa, set groups,default shell, and home directory
       user:
         name: papa
