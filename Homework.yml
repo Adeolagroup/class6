@@ -1,6 +1,6 @@
 ---
 - name: Playbook to do the first homework
-  hosts: alma8
+  hosts: alma
   become: yes
 
   tasks:
@@ -16,6 +16,6 @@
         create: yes
 
     - name: Enable SELinux
-      SELinux:
+      selinux:
         policy: targeted
         state: enforcing
