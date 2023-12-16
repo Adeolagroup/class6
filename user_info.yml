@@ -7,9 +7,18 @@ group_info:
 user_info:
 - username: "papa"
   uid: 1099
+  groupname: class6, africa
+  default_shell: /bin/sh
+  default_home: /opt/papa
 
 - username: "emma"
   uid: 1088
+  groupname: class6, africa
+  default_shell: /bin/sh
+  default_home: /opt/emma
 
 - username: "issa"
   uid: 1087
+  groupname: finance, sales
+  default_shell: /bin/bash
+  default_home: /home/issa

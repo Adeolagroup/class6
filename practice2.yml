@@ -1,7 +1,7 @@
 ---
 ####Playbook to create user and assigne password ############################################################
 - name: Playbook to manage class6 learning
-  hosts: rocky
+  hosts: alma
   become: yes
   vars_files:
     - user_info.yml
@@ -11,15 +11,30 @@
       group:
         name: "{{ item.groupname }}"
         state: present
-      with_items:
+      loop:
         - "{{ group_info }}"
 
-    - name: create users in staff variable in web role and make them members of groups staff and students
+    - name: create users in user_info variable file and make them members of groups appopriate groups
       user:
         name: "{{ item.username }}"
-        groups: web
+        groups: "{{ item.groupname }}"
         state: present
+        shell: "{{ item.default_shell }}"
+        home: "{{ item.default_home }}"
+        uid: "{{ item.uid }}"
         password: "$6$W6kEROvY$G64d4zHAf6Xpdm4T0PtKmaFuT6213TKXOh6/RcNLp6ZEm2A2HgEmiGc//tuSqK4nFybTiAY3PWIUVBq2.9EVp1"
         update_password: always
       with_items:
         - "{{ user_info }}"
+
+    - name : create directory and set group ownership and permission
+      file:
+        state: directory
+        path: "{{ item.dest }}"
+        owner: "{{ item.owner }}"
+        group: "{{ item.group }}"
+        mode: "{{ item.mod }}"
+      loop:
+        - { dest: '/ /tmp/linux', mode: '0777', owner: 'issa', group: 'finance' }
+        - { dest: '/opt/unix', mode: '0674', owner: 'papa', group: 'sales'}
+        - { dest: '/var/ansible', mode: '1775', owner: 'emma', group: 'sales'}
