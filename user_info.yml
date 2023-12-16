@@ -1,8 +1,8 @@
 ---
 group_info:
-- groupname: "sales"
-- groupname: "class6"
-- groupname: "finance"
+- "sales"
+- "class6"
+- "finance"
 
 user_info:
 - username: "papa"
