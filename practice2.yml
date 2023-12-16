@@ -36,7 +36,7 @@
         path: "{{ item.dest }}"
         owner: "{{ item.owner }}"
         group: "{{ item.group }}"
-        mode: "{{ item.mod }}"
+        mode: "{{ item.mode }}"
       loop:
         - { dest: '/ /tmp/linux', mode: '0777', owner: 'issa', group: 'finance' }
         - { dest: '/opt/unix', mode: '0674', owner: 'papa', group: 'sales'}
