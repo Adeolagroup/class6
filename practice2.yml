@@ -15,6 +15,7 @@
         - "sales"
         - "class6"
         - "finance"
+        - "africa"
 
     - name: create users in user_info variable file and make them members of groups appopriate groups
       user:
