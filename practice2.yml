@@ -12,7 +12,9 @@
         name: "{{ item }}"
         state: present
       loop:
-        - "{{ group_info }}"
+        - "sales"
+        - "class6"
+        - "finance"
 
     - name: create users in user_info variable file and make them members of groups appopriate groups
       user:
