@@ -1,0 +1,20 @@
+---
+- name: Intro to Ansible Playbooks
+  become: yes
+  hosts: all
+
+  tasks:
+  - name: Copy file hosts with permissions
+    copy:
+      src: ./hosts
+      dest: /tmp/hosts_backup
+      mode: '0644'
+  - name: Add the user 'bob'
+    user:
+      name: bob
+    become_method: sudo
+  - name: Upgrade all yum packages
+    yum:
+      force_yum_get: yes
+      upgrade: dist
+    
