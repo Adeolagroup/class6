@@ -1,0 +1,21 @@
+---
+- name: Playbook to do the first homework
+  hosts: alma8
+  become: yes
+
+  tasks:
+    - name: create a user called Ngan
+      user:
+        name: Ngan
+
+    - name: create file(class6.txt) write in it and give full permission
+      lineinfile:
+        path: /tmp/class6.txt
+        line: "we are learning in classroom 1 or 2"
+        mode: a+rwx
+        create: yes
+
+    - name: Enable SELinux
+       SELinux:
+         policy: targeted
+         state: enforcing

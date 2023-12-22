@@ -1,0 +1,53 @@
+---
+- name: Playbook to manage class6 learning
+  hosts: rocky
+  become: yes
+
+  tasks:
+    - name: create user papa, set groups,default shell, and home directory
+      user:
+        name: papa
+        shell: /bin/sh
+        groups: afrcia, class6
+        home: /opt/papa
+
+    - name: create user emma, set groups,default shell, and home directory
+      user:
+        name: emma
+        shell: /bin/sh
+        groups: afrcia, class6
+        home: /opt/emma
+
+     - name: create user issa, set groups,default shell, and home directory
+       user:
+         name: issa
+         shell: /bin/bash
+         groups: finance, sales
+         home: /tmp/issa
+
+      - name : create directory and set group ownership and permission
+        file:
+          state: directory
+          path: /tmp/linux
+          owner: issa
+          group: finance
+          mode: a+rwx
+          create: yes
+
+      - name : create directory and set group ownership and permission
+        file:
+          state: directory
+          path: /opt/unix
+          owner: papa
+          group: sales
+          mode: u+rw,g+rwx,o+r
+          create: yes
+
+      - name : create directory and set group ownership and permission
+        file:
+          state: directory
+          path: /var/ansible
+          owner: emma
+          group: sales
+          mode: u+rwx,g+rwx,o+rxs
+          create: yes
