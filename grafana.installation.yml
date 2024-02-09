@@ -1,0 +1,98 @@
+---
+- name: Install Prometheus, Node Exporter, and Grafana
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install necessary packages for Prometheus
+      dnf:
+        name:
+          - epel-release
+          - vim
+        state: present
+
+    - name: Add Prometheus repository
+      shell: curl -s https://packagecloud.io/install/repositories/prometheus-rpm/release/script.rpm.sh | sudo bash
+
+    - name: Install Prometheus
+      dnf:
+        name: prometheus
+        state: present
+
+    - name: Start and enable Prometheus
+      systemd:
+        name: prometheus
+        state: started
+        enabled: yes
+
+    - name: Open firewall for Prometheus
+      firewalld:
+        port: 9090/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Install Node Exporter
+      dnf:
+        name: node_exporter
+        state: present
+
+    - name: Start and enable Node Exporter
+      systemd:
+        name: node_exporter
+        state: started
+        enabled: yes
+
+    - name: Open firewall for Node Exporter
+      firewalld:
+        port: 9100/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Configure Prometheus for scrape Node Exporter
+      blockinfile:
+        path: /etc/prometheus/prometheus.yml
+        block: |
+          - job_name: 'node_exporter_metrics'
+            scrape_interval: 5s
+            static_configs:
+              - targets: ['localhost:9100']
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+
+    - name: Restart Prometheus service
+      systemd:
+        name: prometheus
+        state: restarted
+
+    - name: Add Grafana repository
+      copy:
+        dest: /etc/yum.repos.d/grafana.repo
+        content: |
+          [grafana]
+          name=grafana
+          baseurl=https://packages.grafana.com/oss/rpm
+          repo_gpgcheck=0
+          enabled=1
+          gpgcheck=0
+          gpgkey=https://packages.grafana.com/gpg.key
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
+    - name: Install Grafana
+      dnf:
+        name: grafana
+        state: present
+
+    - name: Enable and start Grafana server
+      systemd:
+        name: grafana-server
+        state: started
+        enabled: yes
+
+
+    - name: Open firewall for Grafana
+      firewalld:
+        port: 3000/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
