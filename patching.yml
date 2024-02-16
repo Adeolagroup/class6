@@ -14,13 +14,13 @@
       args:
         warn: False
 
-    - name: upgrade all packages
+    - name: upgrade all packages for redhat version 7 servers
       yum:
         name: '*'
         state: latest
       when: ansible_facts['os_family'] == 'RedHat' and ansible_distribution_major_version == '7'
 
-    - name: upgrade all packages
+    - name: upgrade all packages for redhat version 8 or 9 servers
       dnf:
         name: '*'
         state: latest
