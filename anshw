@@ -1,0 +1,86 @@
+---
+- name: User and group management playbook
+  hosts: rocky9.class6.com
+  become: yes
+  tasks:
+    - name: Create the users and apply the password classe1
+      user:
+        name: "{{ item }}"
+        password: "{{ 'classe1' | password_hash('sha512') }}"
+        state: present
+      loop:
+        - jen
+        - william
+        - matt
+        - sam
+        - anne
+        - danny
+        - kate
+        - bruce
+
+    - name: Create the groups
+      group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - Management
+        - Sales
+        - Operation
+        - Finance
+
+    - name: Add jen and william to all groups
+      user:
+        name: "{{ item }}"
+        groups: Management,Sales,Operation,Finance
+        append: yes
+      loop:
+        - jen
+        - william
+
+    - name: Add matt, sam, anne, and danny to the sales group
+      user:
+        name: "{{ item }}"
+        groups: Sales
+        append: yes
+      loop:
+        - matt
+        - sam
+        - anne
+        - danny
+
+    - name: Add kate and bruce to the operations group
+      user:
+        name: "{{ item }}"
+        groups: Operation
+        append: yes
+      loop:
+        - kate
+        - bruce
+
+
+
+
+
+# test part no sure for this part
+
+
+
+
+    - name: Verify group membership
+      command: "groups {{ item }}"
+      register: group_membership
+      loop:
+        - jen
+        - william
+        - matt
+        - sam
+        - anne
+        - danny
+        - kate
+        - bruce
+      changed_when: false
+
+    - name: Display group membership results
+      debug:
+        msg: "{{ item.item }} is a member of {{ item.stdout }}"
+      loop: "{{ group_membership.results }}"
