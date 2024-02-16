@@ -1,6 +1,10 @@
 ---
 - name: Playbook to do the first homework
+<<<<<<< HEAD
   hosts: alma
+=======
+  hosts: alma8
+>>>>>>> 19ae9bfd7ee4ff6a6aba4dab0e551e12514f1f7e
   become: yes
 
   tasks:
@@ -16,6 +20,12 @@
         create: yes
 
     - name: Enable SELinux
+<<<<<<< HEAD
       selinux:
         policy: targeted
         state: enforcing
+=======
+       SELinux:
+         policy: targeted
+         state: enforcing
+>>>>>>> 19ae9bfd7ee4ff6a6aba4dab0e551e12514f1f7e
