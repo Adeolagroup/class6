@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   tasks:
-    - name: Users and passord creation
+    - name: Users and passord creation for all servers
       user:
         name: "{{item}}"
         password: "{{ 'classe1' | password_hash('sha512') }}"
