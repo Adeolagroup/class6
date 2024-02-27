@@ -1,0 +1,57 @@
+---
+- name: user,passord,and groups creation with loop
+  hosts: all
+  become: yes
+  tasks:
+    - name: Users and passord creation for all servers
+      user:
+        name: "{{item}}"
+        password: "{{ 'classe1' | password_hash('sha512') }}"
+        state: present
+      loop:
+        - jen
+        - william
+        - matt
+        - anne 
+        - sam
+        - danny
+        - kate
+        - bruce
+
+    - name: groups creation
+      group:
+        name:"{{ item }}"
+        state: present
+      loop:
+        - Management
+        - Sales
+        - Operation
+        - Finance
+
+    - name: Add jen to all groups
+      user:
+        name: "{{ item }}"
+        groups: Management,Sales,Operation,Finance
+        append: yes
+     loop:
+       - jen
+       - william
+
+    - name: Add matt,sam,anne,and danny to sales groups
+      user:
+        name: "{{ item }}"
+        groups: Sales
+        append: yes
+      loop:
+        - matt
+        - sam
+        - anne
+        - danny
+    - name: Add kate and bruce
+      user: 
+        name: "{{ item }}"
+        groups: Operation
+        append: yes
+      loop:
+        - kate
+        - bruce
