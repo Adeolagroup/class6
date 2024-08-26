@@ -4,35 +4,35 @@
   tasks:
     # this task will clean all yum cache on a system
     - name: clean up the repos
-      shell: yum clean all
-      args:
-        warn: no
+      ansible.builtin.shell: yum clean all
+      #args:
+      #  warn: no
 
     # this task will will reload all repos
     - name: repolist the repos
-      shell: yum repolist all
-      args:
-        warn: False
+      ansible.builtin.shell: yum repolist all
+      #args:
+      #  warn: False
 
     - name: upgrade all packages for redhat version 7 servers
-      yum:
+      ansible.builtin.yum:
         name: '*'
         state: latest
       when: ansible_facts['os_family'] == 'RedHat' and ansible_distribution_major_version == '7'
 
     - name: upgrade all packages for redhat version 8 or 9 servers
-      dnf:
+      ansible.builtin.dnf:
         name: '*'
         state: latest
       when: ansible_facts['os_family'] == 'RedHat' and ansible_distribution_major_version == '8' or ansible_distribution_major_version == '9'
 
     - name: Check for reboot hint.
-      shell: LAST_KERNEL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,""); print $1}'); CURRENT_KERNEL=$(uname -r); if [ $LAST_KERNEL != $CURRENT_KERNEL ]; then echo 'reboot'; else echo 'no'; fi
+      ansible.builtin.shell: LAST_KERNEL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,""); print $1}'); CURRENT_KERNEL=$(uname -r); if [ $LAST_KERNEL != $CURRENT_KERNEL ]; then echo 'reboot'; else echo 'no'; fi
       ignore_errors: true
       register: reboot_hint
 
     - name: Rebooting ...
-      command: shutdown -r now "Reboot required for updated kernel"
+      ansible.builtin.command: shutdown -r now "Reboot required for updated kernel"
       async: 600
       poll: 0
     #  sudo: true
@@ -41,5 +41,5 @@
       register: _rebooting_done
 
     - name: Wait for thing to reboot...
-      pause: seconds=60
+      ansible.builtin.pause: seconds=60
       when: "_rebooting_done is changed"
